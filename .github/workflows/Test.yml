@@ -7,13 +7,13 @@ on:
 
 jobs:
   build:
-    uses: manjeet-yadav123/Pipeline-Common/.github/workflows/build.yml@main
+    uses: manjeet-yadav-info/common-pipeline/.github/workflows/build.yml@main
     with:
       package_directory: 'website/**'
  
   DEV:
     needs: build
-    uses: manjeet-yadav123/Pipeline-Common/.github/workflows/release.yml@main
+    uses: manjeet-yadav-info/common-pipeline/.github/workflows/release.yml@main
     with:
       environment: dev
       AZURE_WEBAPP_NAME: appservice-manjeet
@@ -22,7 +22,7 @@ jobs:
       APP_SERVICE_SECRET: ${{ secrets.APP_SERVICE_SECRET }}
   QA:  
     needs: DEV
-    uses: manjeet-yadav123/Pipeline-Common/.github/workflows/release.yml@main
+    uses: manjeet-yadav-info/common-pipeline/.github/workflows/release.yml@main
     with:
       environment: QA
       AZURE_WEBAPP_NAME: appservice-manjeet
@@ -31,7 +31,7 @@ jobs:
       APP_SERVICE_SECRET: ${{ secrets.APP_SERVICE_SECRET }}
   UAT:
     needs: QA
-    uses: manjeet-yadav123/Pipeline-Common/.github/workflows/release.yml@main
+    uses: manjeet-yadav-info/common-pipeline/.github/workflows/release.yml@main
     with:
       environment: UAT
       AZURE_WEBAPP_NAME: appservice-manjeet
@@ -41,7 +41,7 @@ jobs:
 
   PROD:
     needs: UAT
-    uses: manjeet-yadav123/Pipeline-Common/.github/workflows/release.yml@main
+    uses: manjeet-yadav-info/common-pipeline/.github/workflows/release.yml@main
     with:
       environment: PROD
       AZURE_WEBAPP_NAME: appservice-manjeet
