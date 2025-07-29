@@ -10,7 +10,7 @@ jobs:
   build:
     uses: manjeet-yadav-info/common-pipeline/.github/workflows/build.yml@main
     with:
-      package_directory: 'website/**'
+      package_directory: 'build_output'
 
   DEV:
     needs: build
