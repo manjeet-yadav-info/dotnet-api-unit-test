@@ -1,4 +1,5 @@
 name: Build and Deploy to Azure Web App
+
 on:
   push:
     branches: [ "main" ]
@@ -10,34 +11,36 @@ jobs:
     uses: manjeet-yadav-info/common-pipeline/.github/workflows/build.yml@main
     with:
       package_directory: 'website/**'
- 
+
   DEV:
     needs: build
     uses: manjeet-yadav-info/common-pipeline/.github/workflows/release.yml@main
     with:
       environment: dev
       AZURE_WEBAPP_NAME: appservice-manjeet
-      package_directory: 'BuildArtifacts'
+      package_directory: 'build_output'
     secrets:
       APP_SERVICE_SECRET: ${{ secrets.APP_SERVICE_SECRET }}
-  QA:  
+
+  QA:
     needs: DEV
     uses: manjeet-yadav-info/common-pipeline/.github/workflows/release.yml@main
     with:
       environment: QA
       AZURE_WEBAPP_NAME: appservice-manjeet
-      package_directory: 'BuildArtifacts'
+      package_directory: 'build_output'
     secrets:
       APP_SERVICE_SECRET: ${{ secrets.APP_SERVICE_SECRET }}
+
   UAT:
     needs: QA
     uses: manjeet-yadav-info/common-pipeline/.github/workflows/release.yml@main
     with:
       environment: UAT
       AZURE_WEBAPP_NAME: appservice-manjeet
-      package_directory: 'BuildArtifacts'
+      package_directory: 'build_output'
     secrets:
-      APP_SERVICE_SECRET: ${{ secrets.APP_SERVICE_SECRET }}'
+      APP_SERVICE_SECRET: ${{ secrets.APP_SERVICE_SECRET }}
 
   PROD:
     needs: UAT
@@ -45,6 +48,6 @@ jobs:
     with:
       environment: PROD
       AZURE_WEBAPP_NAME: appservice-manjeet
-      package_directory: 'BuildArtifacts'
+      package_directory: 'build_output'
     secrets:
       APP_SERVICE_SECRET: ${{ secrets.APP_SERVICE_SECRET }}
